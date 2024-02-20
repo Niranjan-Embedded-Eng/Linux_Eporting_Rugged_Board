@@ -1,0 +1,28 @@
+Root-FS Experiments
+------------------------
+1) Compile the RFS Using (atmel_sama5d2_xplained_mmc_defconfig)
+Ans:
+Step 1: mkdir Builtroot
+Step 2: cd Builtroot
+Step 3: Install Packages for host
+          sudo apt-get install libssl1.0-dev
+Step 4: Get Source
+          git clone https://github.com/linux4sam/buildroot-at91.git
+Setp 5: ls
+Step 6: cd buildroot-at91/
+Step 7: make atmel_sama5d2_xplained_mmc_defconfig
+Step 8: make
+Step 9: rootfs.tar created in Output/Image Folder. Copy the rootfs.tar to BOOT Folder of 
+          SD Card.
+Step 10: Extract Tar File. Open terminal in BOOT Folder of SD Card. Give the command
+           sudo tar -xvf rootfs.tar -C /media/<host_name>/Rootfs
+Step 11: sync
+Step 12: Remove SD Card and Insert into Rugged Board and boot the board and check
+           the mounted RFS.
+
+2) Customize the list of Packages in RFS
+Ans:
+Step 1: cd buildroot-at91/
+Step 2: make menuconfig
+Step 3: 
+     

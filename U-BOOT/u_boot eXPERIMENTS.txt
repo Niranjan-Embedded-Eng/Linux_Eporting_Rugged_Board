@@ -1,0 +1,28 @@
+6. Add LED Driver to U-BOOT 
+-----------------------------------
+Steps
+------
+1. Download the U-Boot Source From Git Hub.
+2. git clone https://github.com/rugged-board/uboot-rba5d2x.git
+3. cd uboot-rba5d2x
+4. cd ..
+5. git checkout  -b origin/uboot-rba5d2x
+6. cd uboot-rba5d2x
+7. Download the these 3 files from Google Drive 
+   1. sled.c
+   2. sled.h
+   3. scmd.c
+8. Copy sled_cmd.c file to cmd folder [ Path : uboot-rba5d2x/cmd ]
+9. Open Makefile inside cmd folder [vim Makefile]
+10. Give this Command "obj-y += sled_cmd.o" and save 
+11. Copy sled.h file to include folder [Path: uboot-rba5d2x/include ]
+12. Copy sled.c file to led folder [Path: uboot-rba5d2x/drivers/led ]
+13. Open Makefile from led folder and give the command "obj-y += sled.o"
+14. Open Makefile from drivers folder and give the command "obj-y += led/" and save
+15. Enable toolchain
+16. make
+17. Copy the U-BOOT.BIN to SD Card BOOT Folder
+18. Boot the board and stop the Bootloader
+19. Give the Command 
+    sled_cmd PC13 on 	/Led status ON.
+    sled_cmd PC13 off 	/Led status OFF.

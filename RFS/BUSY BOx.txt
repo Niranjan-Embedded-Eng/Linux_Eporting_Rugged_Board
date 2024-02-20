@@ -1,0 +1,35 @@
+1. Create initrd directories:
+    mkdir initrd
+    cd initrd
+    mkdir -p etc proc sys
+
+2. Create the init script:
+    Create a file named 'init' inside the 'initrd' directory with the following content:
+        #!/bin/sh
+
+        mount -t proc proc /proc
+        mount -t sysfs sys /sys
+
+        # Create a device node for serial console
+        mknod /dev/ttyS0 c 4 64
+
+        # Start a shell on the serial console
+        setsid sh -c 'exec sh </dev/ttyS0 >/dev/ttyS0 2>&1'
+
+    Make sure to make the script executable:
+        chmod +x init
+
+3. Download, configure & build BusyBox:
+    cd initrd
+    git clone https://github.com/mirror/busybox.git
+    cd busybox
+    make defconfig
+    # Manually set CONFIG_STATIC=y in busybox/.config
+    make -j $(nproc)
+
+4. Install BusyBox:
+    make CONFIG_PREFIX=$PWD/BUSYBOX install
+    # Then copy /BUSYBOX's content to initrd
+    cp -r BUSYBOX/* ../initrd
+
+Now, your initrd directory should contain the necessary directories, the init script, and the statically linked BusyBox binary. This initrd can be used as an initial ramdisk for booting an embedded system.

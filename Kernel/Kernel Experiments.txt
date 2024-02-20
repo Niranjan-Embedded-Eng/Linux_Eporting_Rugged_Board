@@ -1,0 +1,143 @@
+KERNEL EXPERIMENTS 
+-------------------
+-> Kernel Source is resource Manager.
+-> Once we Compile Kernel source we get Zimage and rugged_board_dtb file.
+-> Once we boot the board all devices are ready for work.
+-> Device are Described in dts file in form of properties and nodes.
+-> In Documentation various text files are present and inside that we have 
+   Readme File (WE can find steps)
+-> Driver Can be Added in two Ways
+   1> Static Model = Driver is compiled and added along with Kernel.
+   2> Dyanmic Model = Driver is made in module way and when required we can add on the go!.
+
+STEPS FOR KERNEL COMPILATION
+-----------------------------
+1] Mkdir Rugged_board_kernel
+2] cd Rugged_board_kernel
+3] Go to this HTTPS https://github.com/rugged-board 
+4] Navigate to linux-rba5d2x 
+5] Give this command git clone https://github.com/rugged-board/linux-rba5d2x.git
+6] cd linux-rba5d2x
+7] ls
+8] git checkout -b origin/linux-rba5d2x
+9] git status
+10] Enable cross-Toolchain []   
+11] git show <commit_no> // for experimental purpose
+12] make rb_a5d2x_defconfig
+13] make
+
+KERNEL EXPERIMENTS
+-------------------
+1. Do kernel Modifications compile and test the new kernel Image
+
+Steps for Kernel Modifications
+--------------------------------------------------
+1. Download the Source from git hub ruggedboard.com
+2. git clone https://github.com/rugged-board/linux-rba5d2x.git.
+3. cd linux-rba5d2x.
+4. git checkout origin/linux-rba5d2x.
+5. make rb_a5d2x_defconfig
+6. cd linux-rba5d2x/init
+7. vim main.c
+8. Search for Banner[In Esc Mode type /Banner]
+9. Modify the Line [Niranjan]
+10.Enable toolchain
+11.make
+12.inside arch/arm/boot "zImage" will be created
+13. Copy Image to BOOT Folder of SD card and boot the board 
+14. Observe the Banner in the boot log.
+
+2. Disable the sound system in kernel and check size 
+a) with Sound System
+b) Without Sound System
+
+a) with Sound System
+---------------------
+1. Download the Source from git hub ruggedboard.com
+2. git clone https://github.com/rugged-board/linux-rba5d2x.git.
+3. cd linux-rba5d2x.
+4. git checkout origin/linux-rba5d2x.
+5. make rb_a5d2x_defconfig
+6. vim Makefile
+7. Search for Sound [In esc mode search /sound]
+8. Observe and verfiy sound is present
+9. Enable toolchain
+10. make
+11. inside arch/arm/boot check the size it should show 4.1mb
+
+b) without Sound System
+------------------------
+1. Download the Source from git hub ruggedboard.com
+2. git clone https://github.com/rugged-board/linux-rba5d2x.git.
+3. cd linux-rba5d2x.
+4. git checkout origin/linux-rba5d2x.
+5. make rb_a5d2x_defconfig
+6. vim Makefile
+7. Search for Sound [In esc mode search /sound]
+8. Delete Sound from that line
+9. Enable toolchain
+10. make
+11. inside arch/arm/boot check the size it should show 4.0mb.
+
+3. Compare the Kernel bootlog with and without system
+
+a) With Sound System
+--------------------------
+1. Download the Source from git hub ruggedboard.com
+2. git clone https://github.com/rugged-board/linux-rba5d2x.git.
+3. cd linux-rba5d2x.
+4. git checkout origin/linux-rba5d2x.
+5. make rb_a5d2x_defconfig
+6. vim Makefile
+7. Search for Sound [In esc mode search /sound]
+8. Observe and verfiy sound is present
+9. Enable toolchain
+10. make
+11. Copy the Zimage to BOOT Folder of SD Card
+12. Boot the Board and Check the Boot Log. [Sound card Present]
+
+b) Without Sound System
+-----------------------------
+1. Download the Source from git hub ruggedboard.com
+2. git clone https://github.com/rugged-board/linux-rba5d2x.git.
+3. cd linux-rba5d2x.
+4. git checkout origin/linux-rba5d2x.
+5. make rb_a5d2x_defconfig
+6. vim Makefile
+7. Search for Sound [In esc mode search /sound]
+8. Observe and verfiy sound is present
+9. Enable toolchain
+10. make
+11. Copy the Zimage to BOOT Folder of SD Card
+12. Boot the Board and Check the Boot Log. [no Sound card Present]
+
+4. Delete RootFs from BOOT and boot the Board (make note of error log)
+Steps
+-----
+1. Delete .jffs file from BOOT Folder from Sd card
+2. Inser SD card to Board
+3. Boot the board and observe the error log
+4. End of Kernel panic
+
+
+5. Delete zImage from BOOT and boot the board
+Steps
+-----
+1. Delete zImage file from BOOT Folder from Sd card
+2. Inser SD card to Board
+3. Boot the board and observe the error log
+4. Unable to Read file zImage
+
+
+6. Add Sled.Driver to Kernel
+Steps
+-------
+1. Grab the Source From 
+-> cd drivers/
+-> cd misc/
+-> copy sled.c file 
+-> open Makefile
+dts - device tree soucr
+dtsi - include
+dtb- device tree blob
+-> obj-$

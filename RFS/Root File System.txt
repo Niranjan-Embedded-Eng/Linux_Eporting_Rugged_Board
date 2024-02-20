@@ -1,0 +1,121 @@
+ROOT FILE SYSTEM
+----------------
+-> The Root file system is top level directory of the file system.
+-> It Conatines all of files required to boot the OS before other file system 
+   are mounted.
+-> It Conatins all executables and libraries required to boot the other filesystems
+-> After system is booted the other filesystems are Mounted.
+-> Generally Root file System is either some mb to couple of gb and hence we
+   cannot load whole RFS into memory. So we load metadata and not whole data.
+-> Difference between loading and Mounting?
+   Loading: Loading generally refers to process of bringing software from HDD into System RAM for Execution
+   Mounting: Mounting Is Prcoess where the File System is accessible to OS.
+
+COMPONENTS OF ROOT FILE SYSTEM
+-------------------------------
+-> unix directory Structure [mkdir]
+   / /bin /home /dev /etc /opt /var /lib /tmp /proc /sys
+
+-> Binaries  
+     commands, user apps, userspace tools, userspace services
+
+-> Libraries
+     System libraries, User Space Library (Stacks), app-libraries
+
+-> Device Nodes
+ [ Drivers are accessed by User space through Device Nodes]
+ [mknode] 
+-> Scripts [It will be in etc folder] [Text Editor]
+
+-> Data Files [Configuration Files] [cp]
+
+These all Form together RFS.
+
+BUSY BOX
+---------
+-> Linux Package which provides all commands and init implemantion. 
+-> SIngle Binary which as serve system tools which when complied we get 
+linux commands
+-> Upon this we can build our system.
+
+busybox.c
+---------
+
+main(int argc, char * argv[])
+{
+  printf("%s", argv[0]);
+  
+  if(strcmp(argv[0],"ls")
+     do_ls();
+  if(strcmp(argv[0],"cp")
+     do_cp();
+  if(strcmp(argv[0],"mkdir")
+     do_mkdir();
+}
+
+LIBRARIES
+---------
+-> glibc tiny c library 
+
+
+LINUX BUILD SYSTEM
+-------------------
+Crosstool-ng -> Is a Set of Scripts and Used for Cross-Compilation various.
+scratchbox   -> Cross Compiltion Tool kit designed for building software for Embedded system.
+OpenWRT      -> Linux Based Firmware for embedded systems particulary routers.
+PTXdist      -> Linux Build System primarily designed for embedded Linux Systems
+LTIB         -> Linux target Images for Embedded Systems.
+Buildroot    -> Buildroot is a popular build system used for building embedded Linux systems
+Open Embedded -> OpenEmbedded is a build framework that assists in the creation of custom Linux distributions for embedded systems
+Yocto Project -> The Yocto Project is a collaboration project that provides tools and metadata for building custom Linux-based systems for embedded devices
+
+STEPS
+------
+1)Fetch Source  
+2)Extract
+3)Patch
+4)Configure
+5)Compile
+6)Package
+7)Image Generation
+8)Install
+
+-> dl and output directories are created as Output.
+-> Output directory will contain host specific Files and Target Specific 
+   too!
+
+
+BUILDROOT DIRECTORY STRCUTURE
+------------------------------
+arch/       Processor config files
+board/      board config files
+boot/       bootloader config and make files
+fs/         file system
+linux/      kernel config and make files
+system/     Linux RFS skeleton or template
+utilis/     Host Utilities for building
+toolchain/  Toolchain config / building toolchain
+support/    build/helper scripts
+configs/    board configuration files
+
+--- 
+-> Build root will do the steps which mentioned above automatcially.
+-> All the Packages.
+
+COMPILE BUILDROOT
+------------------
+make distclean
+make boardname_defconfig
+make menuconfig
+make
+Images will be created in Output Folder
+
+
+BUILDROOT EXPERIMENTS
+---------------------
+1. Compile the RFS using buildroot using (atmel_sama5d2_xplained_mmc_defconfig) board config
+2. Try to customize the list of packages in RFS
+3. Play around with busybox command list
+4. Try different init process (sysv.busybox, sytemd)
+5. Try to add iot related packages and build your RFS. (Any of Your Project)
+

@@ -1,0 +1,133 @@
+LINUX KERNEL
+------------
+-> OS Provides us a GUI system to interact with system, the catch here is 
+system cannot understand the commands directly, the conversion of this 
+commands into binary is done by kernel.
+-> Kernel plays a mediator role betwenn hardware and software.
+-> Kernel is central module of OS.
+-> First Program that is loaded ino protected memory.
+-> User Operation --> System Calls --> Kernel --> Executes User Operation.
+-> Kernel Uses the space such as 
+1) Process Management
+2) Memory Management
+3) Device Management
+4) I/O Management
+
+TYPES OF KERNEL
+----------------
+There are three basic types of kernel
+1> Monolithic Kernel
+2> Micro Kernel
+3> Hybrid Kernel
+
+DIFFERENCE BETWEEN OS AND KERNEL
+--------------------------------
+OPERATING SYSTEM
+-----------------
+-OS is software Package
+-OS is Interface between User and Hardware
+
+KERNEL
+------
+-kernel is part of OS and manage all processes and devices.
+-It is interface between Software and Hardware
+-Helps Program to communicate with Pheripherals
+
+
+FUNCTION OF KERNEL
+------------------
+The Primary Functions of Kernel are
+1>Memory Management
+2>Scheduler
+3>Device Management
+
+
+LINUX KERNEL ARCH
+------------------
+User Application
+     |
+GNU Library
+     |
+System Call Interface
+     |
+    Kernel
+     |
+Architecture Dependent Kernel 
+     |
+  Hardware
+
+User Operation --> System Calls --> Kernel --> Executes User Operation.
+
+LINUX DIRECTORY STRUCTURE
+--------------------------
+linux/arm/arch/kernel --> Arch and Core Specific Code
+linux/arm/arch/<plat-soc> --> SOC Specific Code
+linux/arm/arch/<mach-soc> --> Board Directory Contains Board Files
+linux/arm/arch/boot/dts --> device tree directory files for SOC, SOM, Board specific Code
+linux/arm/arch/boot/ --> Linux Kernel Boot Strap
+linux/arm/arch/configs -->Contains board default configuration used to configure kernel for specific board 
+linux/drivers --> Contains bus drivers and device drivers
+linux/kernel --> Linux Kernel logic H/W Dependent
+linux/init --> Kernel init code main.c(Start Point of Kernel)
+linux/fs ---> Type of FileSystem supported by linux kernel
+
+
+KERNEL KCONFIG
+---------------
+-> Kernel Uses "Kconfig" configuration system.
+-> Important thing are there "Cfiles" and we lot of "cfiles" and out of these cfiles which needs to be compiled.
+-> Hence we have configuration which is called "Macros" config_<macro_name> and this resides in .config.
+-> First we configure Kernel Source > Then additional configuration > .config > make > Zimage
+
+KERNEL CODE FLOW
+-----------------
+1) Kernel Startup entry Point (head.s)
+2) Processor info and cpuid (lookup_processor_type())
+3) Setup the initial page tables (create_page_table())
+4) Setup Common bits before finally enabling the MMU
+5) Copy data segment to RAM Branch to start Kernel.
+6) Initializes various CPU masks for the bootstrap processor.
+7) does all low level initializaton
+8) locate processor in the list of Supported processor types
+9) Machine setup when an dth was passed to kernel
+10) linker section
+
+ADDING NEW DRIVER
+------------------
+S1}Define your device in dts file
+S2}Define your driver sled.c in linux/driver/misc folder
+S3}Add sled configuration in Kconfig
+S4}Add sled entry to Makefile
+S5}Enable the SLED from Menuconfig or add it in board_dfocnig
+
+KERNEL MODULE COMPILATION
+--------------------------
+kernel can be compiled as 
+1)Static module part of linux kernel Image
+2)Dynamic modules as .ko files which hould be copied to RFS
+obj-$(CONFIG_<MODULE>) += modue.o
+3)In menuconfig we can select as * or M which will result
+obj-y        // * Option for Static Module
+obj-m for M  // 'M' for Dynamic Module
+
+COMPILING LINUX KERNEL
+-----------------------
+1) Download the source
+2) Set the Toolchain
+3) Clean the Source
+4) Configure the Kernel Source
+5) Add Additional configuration using menuconfig
+6) make
+
+PORTING LINUX KERNEL TO NEW BOARD
+----------------------------------
+1) Identify the ARCH, CORE and SOC used in your Board.
+2) Check the ARCH and CORE Support in kernel location linux/arch/arm/kernel
+3) Check the SOC Support in kernel location linux/arch/arm/mach-or-plat-<soc_family>
+4) Register the board with DT_MACHINE_START() macro if compatible board is
+   not  found in linux/arch/arm/mach-<soc_family>/<board_name>.c
+5) Add the board dts file in linux/arm/boot/dtb folder
+6) Create a default configuration file for your board in linux/arch/arm/configs
+7) Make Sure You Modified Makefiles corresponding to your code/file changes.
+8) Driver level modification if required.
+   
